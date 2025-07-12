@@ -1,0 +1,22 @@
+.input {
+
+  width: 100%;
+  background-color: var(--bg-secondary);
+  padding: 1rem 0.5rem;
+  border: 1px solid transparent;
+  border-radius: 0.75rem;
+  transition: background-color, border-top-color, border-right-color, border-bottom-color, border-left-color, 0.2s ease-in-out;
+
+  &:hover, &:focus {
+    background-color: var(--bg-tertiary);
+  }
+
+  &:focus {
+    border-color: var(--ac-primary-500);
+  }
+
+  &_error {
+    border-color: var(--red-500);
+  }
+
+}
