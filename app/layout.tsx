@@ -1,4 +1,5 @@
 import type { ReactNode, FC, ReactElement } from "react";
+import "@/styles/index.scss";
 
 interface Props {
   children: ReactNode;
