@@ -4,6 +4,9 @@ import type { FC, ReactElement } from "react";
 import type { FormikValues } from "formik";
 import type { InputChangeHandler } from "@/components/ui/Input";
 import { useCallback } from "react";
+import { useRouter } from "next/navigation";
+import { useGetUserData } from "@/hooks/api/useGetUserData";
+import { useUserContext } from "@/hooks/context/useUserContext";
 import { loginSchema } from "@/schemas/login";
 import Form from "@/components/ui/Form";
 import Input from "@/components/ui/Input";
@@ -21,11 +24,16 @@ const initialValues: FormValues = {
 
 const AuthPageLoginForm: FC = (): ReactElement => {
 
+    const router = useRouter();
+    const { trigger: getUserData, isMutating } = useGetUserData();
+    const { setUser } = useUserContext();
+
     const submitHandler = useCallback(
-        (values: FormikValues): void => {
-            console.log(values);
+        async (): Promise<void> => {
+            setUser(await getUserData());
+            router.push("/dashboard");
         },
-        []
+        [setUser, getUserData, router]
     );
 
     const inputChangeHandler: InputChangeHandler = useCallback<InputChangeHandler>(
@@ -59,7 +67,7 @@ const AuthPageLoginForm: FC = (): ReactElement => {
                 />
                 <ErrorMessage fieldName="phoneNumber" />
                 <Button type="submit">
-                    Login
+                    { isMutating ? "Loading..." : "Login" }
                 </Button>
             </div>
         </Form>
